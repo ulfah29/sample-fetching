@@ -7,46 +7,73 @@ import Form from './components/Form';
 
 function App() {
   const [productDetail, setProductDetail] = useState([]);
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [isLoadingSubmitData, setIsLoadingSubmitData] = useState(false);
   const [resetData, setResetData] = useState(false);
   const [reviewData, setReviewData] = useState('');
+  const [failedToLoadProduct, setFailedToLoadProduct] = useState(false);
   const refFetchData = useRef(false);
 
-  const commentData = useCallback(() => {
-    fetch('https://dummyjson.com/c/db8d-b622-4df4-bc74')
-    .then(res => res.json())
-    .then(res => {
-      setProductDetail(res);
-      setLoading(false);
-    });
+  const fetchCommentData = useCallback(() => {
+    setLoading(true);
+    try {
+      fetch('https://dummyjson.com/c/db8d-b622-4df4-bc74')
+        .then(res => res.json())
+        .then(res => {
+          setProductDetail(res);
+          setLoading(false);
+        });
+    } catch(error) {
+      console.error('Fetch commentData error', error);
+      setFailedToLoadProduct(true);
+    }
   },[]);
 
   useEffect(() => {
     if (!refFetchData.current) {
       setLoading(true);
-      commentData();
+      fetchCommentData();
       refFetchData.current = true;
     }
-  }, [refFetchData, commentData]);
+  }, [refFetchData, fetchCommentData]);
 
   const SubmitMessage = (massage) => {
     setIsLoadingSubmitData(true);
-    fetch('https://dummyjson.com/comments/add', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        body: massage || '',
-        postId: 3,
-        userId: 5,
+
+    try {
+      fetch('https://dummyjson.com/comments/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          body: massage || '',
+          postId: 3,
+          userId: 5,
+        })
       })
-    })
-    .then(res => res.json())
-    .then(res => {
-      setReviewData(res);
-      setIsLoadingSubmitData(false);
-      setResetData(true);
-    });
+      .then(res => res.json())
+      .then(res => {
+        setReviewData(res);
+        setIsLoadingSubmitData(false);
+        setResetData(true);
+      });
+    } catch(error) {
+      console.error('SubmitMessage Error', error);
+      alert('Failed to submit data. Please try again!')
+    }
+  }
+
+  const handleClickTryAgain = () => {
+    setFailedToLoadProduct(false);
+    fetchCommentData();
+  }
+
+  if (failedToLoadProduct) {
+    return (
+      <div className="failedToLoadSection">
+        <p>Failed to load data</p>
+        <button onClick={() => handleClickTryAgain()}>Try Again</button>
+      </div>
+    )
   }
 
   return (
