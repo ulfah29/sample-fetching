@@ -1,12 +1,17 @@
 /** @jsxImportSource @emotion/react */
+import { PropTypes } from "prop-types";
 import { container, commentBoxStyle } from './styles';
 
 function CommentResult({ reviewData }) {
+    console.log('reviewData', reviewData)
     const commentBox = () => {
         return (
             <div css={commentBoxStyle}>
-                {/* <div>{reviewData?.user?.username || ''}</div> */}
-                <div>{reviewData.body || ''}</div>
+                <div><img src="https://placehold.co/50x50" alt="profile" /></div>
+                <div>
+                    <div className="userName">{reviewData?.user?.username || ''}</div>
+                    <div className="message">{reviewData.body || ''}</div>
+                </div>
             </div>
         )
     }
@@ -18,5 +23,13 @@ function CommentResult({ reviewData }) {
         </div>
     )
 }
+
+CommentResult.propTypes = {
+    reviewData: PropTypes.object,
+}
+
+CommentResult.defaultProp = {
+    reviewData: {},
+};
 
 export default CommentResult;

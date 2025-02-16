@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useState, useEffect } from 'react';
+import { PropTypes } from "prop-types";
 import { inputReviewBox, submitButton, container, submitButtonDisabled, submitLoading } from './styles';
 
 function Form({ action, isLoadingSubmitData, resetData }) {
@@ -33,5 +34,18 @@ function Form({ action, isLoadingSubmitData, resetData }) {
         </div>
     )
 }
+
+Form.propTypes = {
+    action: PropTypes.func,
+    isLoadingSubmitData: PropTypes.bool,
+    resetData: PropTypes.bool,
+}
+
+Form.defaultProp = {
+    action: () => {},
+    isLoadingSubmitData: false,
+    resetData: false,
+};
+
 
 export default Form;

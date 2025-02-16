@@ -54,8 +54,10 @@ function App() {
       {isLoading ? <LoadingState /> : (
         <>
           <ProductDetail productDetail= {productDetail} />
-          <CommentResult reviewData={reviewData} />
-          <Form action={prop => SubmitMessage(prop)} isLoadingSubmitData={isLoadingSubmitData} resetData={resetData} />
+          <div className="commentBox">
+            <CommentResult reviewData={reviewData} />
+            <Form action={prop => SubmitMessage(prop)} isLoadingSubmitData={isLoadingSubmitData} resetData={resetData} />
+          </div>
         </>
       )}
     </div>

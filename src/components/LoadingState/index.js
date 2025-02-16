@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { loader } from './styles';
+import { loader, loaderContainer } from './styles';
 
 function LoadingState() {
     return (
-        <div>
+        <div css={loaderContainer}>
             <span css={loader}></span>
         </div>
     )

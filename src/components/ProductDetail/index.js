@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { container, productImageContainer } from './styles';
-import { contentBox } from './styles';
+import { PropTypes, types } from "prop-types";
+import { container, productImageContainer, contentBox } from './styles';
 
 function ProductDetail({ productDetail }) {
     return(
@@ -15,5 +15,13 @@ function ProductDetail({ productDetail }) {
         </div>
     )
 }
+
+ProductDetail.propTypes = {
+    productDetail: PropTypes.oneOfType([types])
+}
+
+ProductDetail.defaultProp = {
+    productDetail: [],
+};
 
 export default ProductDetail;

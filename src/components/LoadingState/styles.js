@@ -16,3 +16,8 @@ export const loader = css({
     '100%': {transform: 'rotate(360deg)'}
   }
 })
+
+export const loaderContainer = css({
+  width: 130,
+  margin: '50px auto',
+})
